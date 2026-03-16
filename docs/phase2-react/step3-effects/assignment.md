@@ -26,7 +26,7 @@
 
 モックJSONを `fetch` で取得する形に変更する。
 
-`public/mock/ads.json` を作成し（step1のハードコードデータをJSONファイルに移す）、
+`public/mock/contents.json` を作成し（step1のハードコードデータをJSONファイルに移す）、
 useEffect で取得して表示する。
 
 3つの状態を適切に管理すること：
@@ -38,12 +38,12 @@ useEffect で取得して表示する。
 
 ### Part2：型定義を整備する
 
-`src/types/ad.ts` を更新し、以下を定義する。
+`src/types/content.ts` を更新し、以下を定義する。
 
 ```
-1. AdPerformance（step1のものを見直す）
+1. ContentPerformance（step1のものを見直す）
 2. ApiResponse<T>（data: T | null / loading: boolean / error: string | null）
-3. SortKey（"impressions" | "clicks" | "ctr" のユニオン型）
+3. SortKey（"views" | "likes" | "likeRate" のユニオン型）
 ```
 
 ApiResponse<T> を使って useEffect の状態管理を書き直す。
@@ -56,7 +56,7 @@ ApiResponse<T> を使って useEffect の状態管理を書き直す。
 ```
 - [ ] App.tsx のローカル変数に型がある
 - [ ] FilterInput.tsx の props に型がある
-- [ ] AdCard.tsx の props に型がある（step1で作成済みのはず）
+- [ ] ContentCard.tsx の props に型がある（step1で作成済みのはず）
 - [ ] ソートボタン周りのイベントハンドラに型がある
 - [ ] any を1箇所も使っていない
 ```
@@ -96,9 +96,9 @@ ApiResponse<T> を使って useEffect の状態管理を書き直す。
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const res = await fetch("/mock/ads.json");
+      const res = await fetch("/mock/contents.json");
       if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-      const data: AdPerformance[] = await res.json();
+      const data: ContentPerformance[] = await res.json();
       // state を更新
     } catch (e) {
       // エラー state を更新
@@ -121,7 +121,7 @@ interface ApiResponse<T> {
 }
 
 // 使い方
-const [state, setState] = useState<ApiResponse<AdPerformance[]>>({
+const [state, setState] = useState<ApiResponse<ContentPerformance[]>>({
   data: null,
   loading: true,
   error: null,

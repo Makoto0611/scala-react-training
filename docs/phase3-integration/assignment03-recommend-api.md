@@ -25,27 +25,27 @@
 
 **リクエスト**
 ```json
-{"requestId": "req_001", "minScore": 70}
+{"requestId": "req_001", "minScore": 100}
 ```
 
 **レスポンス（レコメンドあり）**
 ```json
-{"requestId": "req_001", "contentId": "ct_003", "score": 85, "title": "サンプルライブC", "recommended": true}
+{"requestId": "req_001", "contentId": "content_001", "score": 150, "recommended": true}
 ```
 
 **レスポンス（レコメンドなし）**
 ```json
-{"requestId": "req_001", "contentId": null, "score": 0, "recommended": false, "reason": "NO_CONTENT"}
+{"requestId": "req_001", "contentId": null, "score": 0, "recommended": false, "reason": "NO_MATCH"}
 ```
 
 ### コンテンツデータ（ハードコードでよい）
 
 ```scala
-// score はそのコンテンツのレコメンドスコア（高いほど優先してレコメンドされる）
+// score はそのコンテンツのレコメンドスコア
 val contentCatalog = List(
-  RecommendContent("ct_001", "サンプル映画A",    score = 60),
-  RecommendContent("ct_002", "サンプルシリーズB", score = 45),
-  RecommendContent("ct_003", "サンプルライブC",   score = 85)
+  RecommendContent("content_001", "猫の日常",          score = 150),
+  RecommendContent("content_002", "料理チュートリアル", score = 80),
+  RecommendContent("content_003", "ゲーム実況",         score = 200)
 )
 ```
 
@@ -54,7 +54,7 @@ val contentCatalog = List(
 ```
 1. minScore 以上の score を持つコンテンツを探す
 2. 条件を満たすコンテンツが複数あれば score が最も高いものを選ぶ
-3. 条件を満たすコンテンツがなければ NO_CONTENT を返す
+3. 条件を満たすコンテンツがなければ NO_MATCH を返す
 4. 処理は Future で非同期にする
 ```
 
@@ -72,10 +72,10 @@ val contentCatalog = List(
 ## 採点基準
 
 ```bash
-# レコメンドあり（minScore=70 → ct_003 が score=85 で選ばれる）
+# レコメンドあり（minScore=100 → content_003 が score=200 で選ばれる）
 curl -X POST http://localhost:8080/recommend \
   -H "Content-Type: application/json" \
-  -d '{"requestId":"req_001","minScore":70}'
+  -d '{"requestId":"req_001","minScore":100}'
 
 # レコメンドなし（minScore が全コンテンツの score を超える）
 curl -X POST http://localhost:8080/recommend \
@@ -84,7 +84,7 @@ curl -X POST http://localhost:8080/recommend \
 ```
 
 - [ ] レコメンドありケースで contentId・score を含むレスポンスが返る
-- [ ] レコメンドなしケースで `"recommended": false` と `"reason": "NO_CONTENT"` が返る
+- [ ] レコメンドなしケースで `"recommended": false` と `"reason": "NO_MATCH"` が返る
 - [ ] `Either` でエラーハンドリングしている
 - [ ] `null` を使っていない
 - [ ] CORS 設定がある（Reactから呼べる）

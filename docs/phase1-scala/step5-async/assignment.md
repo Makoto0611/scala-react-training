@@ -17,7 +17,7 @@
 
 ## 課題
 
-課題3（Scala API）では複数の入札処理を並行して処理する。
+課題3（レコメンドAPI）では複数のコンテンツを並行して処理する。
 その準備として、Future を使った非同期処理を実装する。
 
 ### Part1：Future の基本
@@ -26,8 +26,8 @@
 
 ```scala
 // 重い処理（スリープで疑似的に表現）
-def fetchAdData(adId: String): Future[Ad] = ???
-def fetchImpressionCount(adId: String): Future[Int] = ???
+def fetchContent(contentId: String): Future[Content] = ???
+def fetchViewCount(contentId: String): Future[Int] = ???
 ```
 
 2つの Future を並行して実行し、両方が完了したら結果を出力する。
@@ -37,21 +37,21 @@ def fetchImpressionCount(adId: String): Future[Int] = ???
 ### Part2：エラーハンドリングとの組み合わせ
 
 ```scala
-def fetchAdDataWithError(adId: String): Future[Either[String, Ad]] = ???
+def fetchContentWithError(contentId: String): Future[Either[String, Content]] = ???
 ```
 
 Future が失敗した場合（例外）と、Either が Left の場合（ビジネスエラー）を
 それぞれ異なる方法でハンドリングする実装を書く。
 
-### Part3：複数の adId を並行処理する
+### Part3：複数の contentId を並行処理する
 
 以下の仕様で実装する。
 
 ```
-関数名：fetchAllAdData
-引数  ：adIds: List[String]
-戻り値：Future[List[Ad]]
-仕様  ：全ての adId に対して fetchAdData を並行で実行し、全部完了したら List にまとめて返す
+関数名：fetchAllContents
+引数  ：contentIds: List[String]
+戻り値：Future[List[Content]]
+仕様  ：全ての contentId に対して fetchContent を並行で実行し、全部完了したら List にまとめて返す
 ```
 
 `Future.sequence` を使うこと。
@@ -62,7 +62,7 @@ Future が失敗した場合（例外）と、Either が Left の場合（ビジ
 
 - [ ] Part1 の並行実行が動作し、逐次より速いことが確認できる
 - [ ] Part2 のエラーハンドリングが Future 失敗と Either Left の両方に対応している
-- [ ] Part3 の fetchAllAdData が動作する
+- [ ] Part3 の fetchAllContents が動作する
 - [ ] `Await.result` は動作確認用にのみ使い、本番コードでは使わない
 
 ---
@@ -100,15 +100,15 @@ val f: Future[Int] = Future {
 逐次（遅い）:
 ```scala
 for {
-  a <- fetchAdData("ad_001")    // 完了してから
-  b <- fetchAdData("ad_002")    // 次を実行
+  a <- fetchContent("ct_001")    // 完了してから
+  b <- fetchContent("ct_002")    // 次を実行
 } yield (a, b)
 ```
 
 並行（速い）:
 ```scala
-val fa = fetchAdData("ad_001")  // 同時に
-val fb = fetchAdData("ad_002")  // 開始する
+val fa = fetchContent("ct_001")  // 同時に
+val fb = fetchContent("ct_002")  // 開始する
 for {
   a <- fa
   b <- fb
@@ -121,8 +121,8 @@ for {
 <summary>ヒント3：Future.sequence の使い方</summary>
 
 ```scala
-val futures: List[Future[Ad]] = adIds.map(id => fetchAdData(id))
-val result: Future[List[Ad]] = Future.sequence(futures)
+val futures: List[Future[Content]] = contentIds.map(id => fetchContent(id))
+val result: Future[List[Content]] = Future.sequence(futures)
 ```
 
 </details>
