@@ -1,0 +1,18 @@
+# sbt build artifacts
+target/
+project/target/
+project/project/
+
+# Scala build caches
+.scala-build/
+.bsp/
+
+# Metals (LSP)
+.metals/
+
+# IDE
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

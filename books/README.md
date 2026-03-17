@@ -4,12 +4,12 @@
 
 ## 書籍一覧
 
-| ファイル名 | 書籍タイトル | 出版社 | 位置づけ | 状態 |
+| ファイル名 | 書籍タイトル | 出版社 | 位置づけ |
 |-----------|------------|--------|---------|------|
-| `jissen-scala-nyumon-toc.md` | 実践Scala入門 | 技術評論社 | メイン教科書 | 購入済み |
-| `scala-recipes-toc.md` | Scala逆引きレシピ | 翔泳社 | 辞書・リファレンス | 検討中 |
-| `functional-programming-toc.md` | 関数プログラミング実践入門（増補改訂版） | 技術評論社 | 概念理解の補強 | 購入済み |
-| `scala-scalable-programming-toc.md` | Scalaスケーラブルプログラミング第4版 | インプレス | 深掘り・仕様確認 | 購入予定 |
+| `jissen-scala-nyumon-toc.md` | 実践Scala入門 | 技術評論社 | メイン教科書 |
+| `scala-recipes-toc.md` | Scala逆引きレシピ | 翔泳社 | 辞書・リファレンス |
+| `functional-programming-toc.md` | 関数プログラミング実践入門（増補改訂版） | 技術評論社 | 概念理解の補強 |
+| `scala-scalable-programming-toc.md` | Scalaスケーラブルプログラミング第4版 | インプレス | 深掘り・仕様確認 |
 
 ---
 
