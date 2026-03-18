@@ -35,23 +35,23 @@ jobs:
         run: |
           DIFF=$(cat diff.txt)
 
+          PROMPT="あなたはScala学習リポジトリのコードレビュアーです。\n\n## 必須チェック\n- forループ（命令的なJavaスタイル）を使っていないか\n- nullを使っていないか\n- varではなくvalを使っているか\n\n## コレクション操作\n- map/filter/foldLeft/groupByが適切か\n- getOrElseで安全に処理されているか\n- 型注釈が適切か\n\n## 出力形式\n- 日本語で記述\n- まず良い点を1〜2点\n- 指摘は「問題点」「理由」「改善例」の形式\n- 問題なければ「✅ 完了条件をすべて満たしています」と明記\n\n以下のdiffをレビューしてください：\n\n$DIFF"
+
+          PAYLOAD=$(jq -n --arg prompt "$PROMPT" '{
+            model: "claude-sonnet-4-6",
+            max_tokens: 2000,
+            messages: [{role: "user", content: $prompt}]
+          }')
+
           RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
             -H "x-api-key: $ANTHROPIC_API_KEY" \
             -H "anthropic-version: 2023-06-01" \
             -H "content-type: application/json" \
-            -d "$(jq -n \
-              --arg diff "$DIFF" \
-              '{
-                model: "claude-sonnet-4-6",
-                max_tokens: 2000,
-                messages: [{
-                  role: "user",
-                  content: ("あなたはScala学習リポジトリのコードレビュアーです。\n\n## 必須チェック\n- forループ（命令的なJavaスタイル）を使っていないか\n- nullを使っていないか\n- varではなくvalを使っているか\n\n## コレクション操作\n- map/filter/foldLeft/groupByが適切か\n- getOrElseで安全に処理されているか\n- 型注釈が適切か\n\n## 出力形式\n- 日本語で記述\n- まず良い点を1〜2点\n- 指摘は「問題点」「理由」「改善例」の形式\n- 問題なければ「✅ 完了条件をすべて満たしています」と明記\n\n以下のdiffをレビューしてください：\n\n" + $diff)
-                }]
-              }'
-            )"
+            -d "$PAYLOAD")
 
           COMMENT=$(echo "$RESPONSE" | jq -r '.content[0].text')
 
           gh api repos/$REPO/issues/$PR_NUMBER/comments \
-          -f body="## 🤖 Claude AI レビュー\n\n$COMMENT"
+            -f body="## 🤖 Claude AI レビュー
+
+$COMMENT"
