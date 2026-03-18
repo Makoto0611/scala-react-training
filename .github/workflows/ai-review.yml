@@ -54,6 +54,4 @@ jobs:
           COMMENT=$(echo "$RESPONSE" | jq -r '.content[0].text')
 
           gh api repos/$REPO/issues/$PR_NUMBER/comments \
-            -f body="## 🤖 Claude AI レビュー
-
-$COMMENT"
+          -f body="## 🤖 Claude AI レビュー\n\n$COMMENT"
