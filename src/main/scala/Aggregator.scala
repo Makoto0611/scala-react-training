@@ -51,12 +51,12 @@ object Aggregator extends App {
 
   // 3. 各 contentId の視聴件数を Map にする
   //    → 期待値：Map("ct_001" -> 2, "ct_002" -> 1, "ct_003" -> 1)
-  val viewCount: MapView[String, Int] = viewGroup.mapValues(_.size)
+  val viewCount: Map[String, Int] = viewGroup.mapValues(_.size).toMap()
   println(s"${viewCount}")
 
   // 4. 各 contentId のいいね件数を Map にする
   //    → ct_003 はいいねデータが存在しないため 0 になる（getOrElse を使う）
-  val likeCount: MapView[String, Int] = likesGroup.mapValues(_.size)
+  val likeCount: Map[String, Int] = likesGroup.mapValues(_.size).toMap()
 
   // part3
   println("=== 集計結果 ===")
@@ -68,6 +68,8 @@ object Aggregator extends App {
   })
 
   //  part4
+  //  課題内容:Part3 の集計処理を for式（for comprehension）で書き直したバージョンを作り、 同じ出力が出ることを確認する。
+  //  docs/phase1-scala/step2-collections/assignment.md
   for (c <- contents) {
     val vc = viewCount.getOrElse(c.id, 0)
     val lc = likeCount.getOrElse(c.id, 0)
