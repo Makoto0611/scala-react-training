@@ -50,8 +50,7 @@ jobs:
             -d "$PAYLOAD")
 
           COMMENT=$(echo "$RESPONSE" | jq -r '.content[0].text')
+          BODY="## 🤖 Claude AI レビュー\n\n${COMMENT}"
 
           gh api repos/$REPO/issues/$PR_NUMBER/comments \
-            -f body="## 🤖 Claude AI レビュー
-
-$COMMENT"
+            -f body="$BODY"
