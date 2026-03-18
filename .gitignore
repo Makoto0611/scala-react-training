@@ -16,3 +16,6 @@ project/project/
 # OS
 .DS_Store
 Thumbs.db
+
+# private
+.vscode/

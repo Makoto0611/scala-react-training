@@ -1,0 +1,59 @@
+name: Claude AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - "workspace/*"
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    if: github.actor == 'Makoto0611'
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get diff
+        id: diff
+        run: |
+          git diff origin/${{ github.base_ref }}...HEAD -- 'src/**/*.scala' > diff.txt
+          echo "diff_size=$(wc -c < diff.txt)" >> $GITHUB_OUTPUT
+
+      - name: Claude AI Review
+        if: steps.diff.outputs.diff_size != '0'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          DIFF=$(cat diff.txt)
+
+          RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "content-type: application/json" \
+            -d "$(jq -n \
+              --arg diff "$DIFF" \
+              '{
+                model: "claude-sonnet-4-6",
+                max_tokens: 2000,
+                messages: [{
+                  role: "user",
+                  content: ("あなたはScala学習リポジトリのコードレビュアーです。\n\n## 必須チェック\n- forループ（命令的なJavaスタイル）を使っていないか\n- nullを使っていないか\n- varではなくvalを使っているか\n\n## コレクション操作\n- map/filter/foldLeft/groupByが適切か\n- getOrElseで安全に処理されているか\n- 型注釈が適切か\n\n## 出力形式\n- 日本語で記述\n- まず良い点を1〜2点\n- 指摘は「問題点」「理由」「改善例」の形式\n- 問題なければ「✅ 完了条件をすべて満たしています」と明記\n\n以下のdiffをレビューしてください：\n\n" + $diff)
+                }]
+              }'
+            )"
+
+          COMMENT=$(echo "$RESPONSE" | jq -r '.content[0].text')
+
+          gh api repos/$REPO/issues/$PR_NUMBER/comments \
+            -f body="## 🤖 Claude AI レビュー
+
+$COMMENT"
