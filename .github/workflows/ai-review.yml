@@ -10,7 +10,6 @@ jobs:
   review:
     runs-on: ubuntu-latest
     if: github.actor == 'Makoto0611'
-    env:
     permissions:
       contents: read
       pull-requests: write
@@ -83,7 +82,7 @@ jobs:
             -d "$PAYLOAD")
 
           COMMENT=$(echo "$RESPONSE" | jq -r '.content[0].text')
-          BODY="## ${COMMENT}"
+          BODY="${COMMENT}"
 
           gh api repos/$REPO/issues/$PR_NUMBER/comments \
             -f body="$BODY"
