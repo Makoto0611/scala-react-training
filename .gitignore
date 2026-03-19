@@ -19,3 +19,10 @@ Thumbs.db
 
 # private
 .vscode/
+
+# Bloop build server
+.bloop/
+project/.bloop/
+
+# Metals LSP
+project/metals.sbt
