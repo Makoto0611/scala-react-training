@@ -22,8 +22,8 @@
 
 step1で定義した View / Like / Content を使って集計処理を実装する。
 
-`src/project1-log-aggregator/src/main/scala/aggregator/` を作成し、
-以下の処理をすべて実装する。
+`src/main/scala/Aggregator.scala` に以下の処理をすべて実装する。
+動作確認は `src/main/scala/Main.scala` に追記する。
 
 ### Part1：基本的なコレクション操作
 

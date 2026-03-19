@@ -28,7 +28,7 @@
 
 ### 実装するもの
 
-`src/project1-log-aggregator/src/main/scala/models/` 配下に以下を実装する。
+`src/main/scala/models/` 配下に以下を実装する。
 
 **ContentModels.scala**
 
@@ -65,7 +65,7 @@ Content の case class に contentType フィールドを追加すること。
 
 ### 動作確認
 
-`src/project1-log-aggregator/src/main/scala/Main.scala` を修正し、
+`src/main/scala/Main.scala` を修正し、
 `sbt run` で以下の出力が出ることを確認する。
 
 ```

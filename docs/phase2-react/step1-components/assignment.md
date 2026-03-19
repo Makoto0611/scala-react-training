@@ -19,7 +19,7 @@ react.dev を開いて上記3節を読む。
 
 ## 課題
 
-`src/project3-dashboard/src/` 配下に実装する。
+Phase2のReactプロジェクトの `src/` 配下に実装する。
 
 ### Part1：型定義を設計する
 

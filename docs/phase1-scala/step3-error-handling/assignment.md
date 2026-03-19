@@ -22,6 +22,13 @@ null ではなく Option を使う理由の根本が理解できる。
 
 step2の集計処理に、適切なエラーハンドリングを追加する。
 
+**実装ファイル構成**
+
+| 役割 | ファイル |
+|------|------|
+| ロジック関数 | `src/main/scala/ErrorHandling.scala`（新規作成） |
+| 動作確認（println出力） | `src/main/scala/Main.scala` に追記 |
+
 ### Part1：Option を使う
 
 以下の関数を実装する。

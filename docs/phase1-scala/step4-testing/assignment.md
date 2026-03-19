@@ -16,11 +16,24 @@
 
 ---
 
+## 事前準備：ScalaTest の依存関係確認
+
+`build.sbt` に ScalaTest が追加済みであることを確認する。
+以下の行が含まれていればOK。
+
+```scala
+libraryDependencies += ("org.scalatest" %% "scalatest" % "3.2.18" % Test)
+```
+
+確認後、`sbt test` を一度実行してビルドが通ることを確かめてから実装に入ること。
+
+---
+
 ## 課題
 
 step1〜3で実装した処理に対してテストを書く。
 
-テストファイルは `src/project1-log-aggregator/src/test/scala/` 配下に作成する。
+テストファイルは `src/test/scala/` 配下に作成する。
 
 ### Part1：データモデルのテスト
 
