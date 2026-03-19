@@ -37,4 +37,17 @@ object Main extends App {
   likes.foreach { l =>
     println(s"${l.id} | ${l.datetime+ 1700000000}")
   }
+
+  // ErrorHandling.scala
+  val output3_1 = filterContent("ct_001", contents)
+  println(output3_1)
+
+  val output3_2 = findContent("ct_001", contents)
+  println(output3_2)
+
+  val output3_3 = calcLikeRate(10, 5)
+  println(output3_3)
+
+  val output3_4 = readJsonFile("test")
+  println(output3_4)
 }
