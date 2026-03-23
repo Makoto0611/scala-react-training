@@ -50,9 +50,9 @@ object Main extends App {
     case None    => println("見つかりませんでした")
   }
 
-  val output3_3 = calcLikeRate(10, 5)
+  calcLikeRate(10, 5)
 
-  val output3_4 = readJsonFile("test") match {
+  readJsonFile("test") match {
     case Success(i) => println(s"success ${i}")
     case Failure(e) => println(s"ファイルの読み込みに失敗しました: + ${e.getMessage()}")
   }

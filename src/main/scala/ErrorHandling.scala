@@ -36,7 +36,11 @@ def readJsonFile(path: String): Try[String] = {
 
 // Part4
 // Q1: findContent の戻り値を Either[String, Content] にするメリット・デメリットは何か
-// 呼び出し元のエラーで何が原因になっているのかを検知できる。半面rightとleftを両方処理しなければいけない
+// メリット：呼び出し元で「なぜ見つからなかったか」の理由を Left の文字列で受け取れる。
+//           理由が複数ある場合（IDが空、リストが空、存在しないIDなど）にログやエラー通知を出し分けられる。
+// デメリット：findContent のように「あるかないか」だけのケースでは
+//             呼び出し元が必ず Right/Left の両方を処理しなければならず、コードが冗長になる。
+//             理由を伝える必要がない場面では Option の方がシンプルで適切。
 
 // Q2: calcLikeRate の戻り値を Option[Double] にした場合と Either[String, Double] にした場合、
 //  呼び出し元でどんな違いが出るか
