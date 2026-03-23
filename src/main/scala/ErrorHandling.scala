@@ -1,8 +1,5 @@
 import scala.util.{Try, Success, Failure}
 
-// レビュー前に課題要件の確認お願い。
-// docs/phase1-scala/step3-error-handling/assignment.md
-
 //Part1
 // 関数名：findContent
 // 引数  ：contentId: String, contents: List[Content]
