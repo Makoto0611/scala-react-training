@@ -38,7 +38,8 @@ jobs:
           # ...（その他の環境変数）
         run: |
           DIFF=$(cat diff.txt)
-          
+          ASSIGNMENT=$(find docs -name "assignment.md" | sort | while read f; do echo "=== $f ==="; cat "$f"; echo ""; done)
+
           # 汎用的なメンタープロンプト
           # ${CURRICULUM} や ${LANGUAGE} はGitHub Actionsの変数から注入
           PROMPT=$(cat <<EOF
@@ -48,6 +49,7 @@ jobs:
           </role>
 
           <review_policy>
+          0. 課題要件の尊重: assignment.md に記載された完了条件と仕様を最優先とし、それを満たしている実装に対して要件外の改善を強制しないでください。
           1. 思考の言語化: 実装の意図を問いかけ、受講者自身の言葉で説明を促してください。
           2. 原理原則との接続: 単なる構文修正ではなく、SOLID、DRY、KISS、デザインパターン等の広義の設計原則と紐付けて解説してください。
           3. トレードオフの提示: 常に「他の選択肢」を提示し、メリット・デメリットを比較する視点を与えてください。
@@ -58,6 +60,9 @@ jobs:
           <context>
           - 対象言語/技術スタック: ${LANGUAGE}
           - 現在の学習フェーズ/意図: ${CURRICULUM}
+            <assignment>
+            ${ASSIGNMENT}
+            </assignment>
           </context>
 
           <task>
