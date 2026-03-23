@@ -50,9 +50,18 @@ object Main extends App {
     case None    => println("見つかりませんでした")
   }
 
-  calcLikeRate(0, 5)
-  calcLikeRate(10, 5)
-  calcLikeRate(5, 5)
+  calcLikeRate(0, 5) match {
+    case Left(value) => println(value)
+    case Right(value) => println(value)
+  }
+  calcLikeRate(10, 5) match {
+    case Left(value) => println(value)
+    case Right(value) => println(value)
+  }
+  calcLikeRate(5, 5) match {
+    case Left(value) => println(value)
+    case Right(value) => println(value)
+  }
 
   readJsonFile("test") match {
     case Success(i) => println(s"success ${i}")
