@@ -1,3 +1,4 @@
+import scala.util.{Try, Success, Failure}
 object Main extends App {
 
   val content1 = Content("ct_001", "サンプル映画A", Movie, 5400)
@@ -39,18 +40,20 @@ object Main extends App {
   }
 
   // ErrorHandling.scala
-  val output3_1 = filterContent("ct_001", contents)
-  println(output3_1)
-
-  val output3_2 = findContent("ct_001", contents) match {
+  filterContent("ct_001", contents) match {
     case Some(c) => println(s"見つかりました: ${c.title}")
     case None    => println("見つかりませんでした")
   }
-  println(output3_2)
+
+  findContent("ct_999", contents) match {
+    case Some(c) => println(s"見つかりました: ${c.title}")
+    case None    => println("見つかりませんでした")
+  }
 
   val output3_3 = calcLikeRate(10, 5)
-  println(output3_3)
 
-  val output3_4 = readJsonFile("test")
-  println(output3_4)
+  val output3_4 = readJsonFile("test") match {
+    case Success(i) => println(s"success ${i}")
+    case Failure(e) => println(s"ファイルの読み込みに失敗しました: + ${e.getMessage()}")
+  }
 }

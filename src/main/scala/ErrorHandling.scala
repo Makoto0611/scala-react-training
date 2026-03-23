@@ -31,20 +31,12 @@ def calcLikeRate(views: Int, likes: Int): Either[String, Double] = {
 
 // Part3
 def readJsonFile(path: String): Try[String] = {
-  val hasPath = Try(scala.io.Source.fromFile(path).mkString)
-  hasPath match {
-    case Success(i) =>
-      println(s"success ${i}")
-      Success(i)
-    case Failure(e) =>
-      println(s"ファイルの読み込みに失敗しました: + ${e.getMessage()}")
-      Failure(e)
-  }
+  Try(scala.io.Source.fromFile(path).mkString)
 }
 
 // Part4
 // Q1: findContent の戻り値を Either[String, Content] にするメリット・デメリットは何か
-// メリットは厳密な型定義により堅牢になり、デメリットは逆に戻り値を柔軟にしたい場合に不便
+// 呼び出し元のエラーで何が原因になっているのかを検知できる。半面rightとleftを両方処理しなければいけない
 
 // Q2: calcLikeRate の戻り値を Option[Double] にした場合と Either[String, Double] にした場合、
 //  呼び出し元でどんな違いが出るか
