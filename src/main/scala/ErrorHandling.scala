@@ -1,6 +1,6 @@
 import scala.util.{Try, Success, Failure}
 
-// 課題内容
+// レビュー前に課題要件の確認お願い。
 // docs/phase1-scala/step3-error-handling/assignment.md
 
 //Part1
@@ -8,20 +8,31 @@ import scala.util.{Try, Success, Failure}
 // 引数  ：contentId: String, contents: List[Content]
 // 戻り値：Option[Content]
 // 仕様  ：contents の中に contentId と一致する Content があれば Some(content) を返す。なければ None を返す。
-def filterContent(contentId: String, contents: List[Content]): Option[Content] = {
+def filterContent(
+    contentId: String,
+    contents: List[Content]
+): Option[Content] = {
 
   val contentOpt = contents.filter(c => c.id == contentId).headOption
   contentOpt match {
-    case Some(content) => contentOpt
-    case None => None
+    case Some(c) =>
+      println(s"見つかりました: ${c.title}")
+      Some(c)
+    case None => 
+      println(s"見つかりませんでした")
+      None
   }
 }
 
 def findContent(contentId: String, contents: List[Content]): Option[Content] = {
   val hasContent = contents.find(c => c.id == contentId)
   hasContent match {
-    case Some(content) => hasContent
-    case None => None
+    case Some(c) => 
+      println(s"見つかりました: ${c.title}")
+      Some(c)
+    case None    =>
+      println("見つかりませんでした")
+      None
   }
 }
 // Part2
@@ -42,12 +53,15 @@ def calcLikeRate(views: Int, likes: Int): Either[String, Double] = {
 }
 
 // Part3
-def readJsonFile(path: String): Unit = {
+def readJsonFile(path: String): Try[String] = {
   val hasPath = Try(scala.io.Source.fromFile(path).mkString)
   hasPath match {
-    case Success(i)            => println(s"success ${i}")
+    case Success(i) => 
+      println(s"success ${i}")
+      Success(i)
     case Failure(e) =>
       println(s"ファイルの読み込みに失敗しました: + ${e.getMessage()}")
+      Failure(e)
   }
 }
 
