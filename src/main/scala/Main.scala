@@ -1,3 +1,4 @@
+import scala.util.{Try, Success, Failure}
 object Main extends App {
 
   val content1 = Content("ct_001", "サンプル映画A", Movie, 5400)
@@ -35,6 +36,35 @@ object Main extends App {
 
   println("=== いいねログ ===")
   likes.foreach { l =>
-    println(s"${l.id} | ${l.datetime+ 1700000000}")
+    println(s"${l.id} | ${l.datetime + 1700000000}")
+  }
+
+  // ErrorHandling.scala
+  filterContent("ct_001", contents) match {
+    case Some(c) => println(s"見つかりました: ${c.title}")
+    case None    => println("見つかりませんでした")
+  }
+
+  findContent("ct_999", contents) match {
+    case Some(c) => println(s"見つかりました: ${c.title}")
+    case None    => println("見つかりませんでした")
+  }
+
+  calcLikeRate(0, 5) match {
+    case Left(value) => println(value)
+    case Right(value) => println(value)
+  }
+  calcLikeRate(10, 5) match {
+    case Left(value) => println(value)
+    case Right(value) => println(value)
+  }
+  calcLikeRate(5, 5) match {
+    case Left(value) => println(value)
+    case Right(value) => println(value)
+  }
+
+  readJsonFile("test") match {
+    case Success(i) => println(s"success ${i}")
+    case Failure(e) => println(s"ファイルの読み込みに失敗しました:${e.getMessage()}")
   }
 }
