@@ -5,32 +5,12 @@ import scala.util.{Try, Success, Failure}
 // 引数  ：contentId: String, contents: List[Content]
 // 戻り値：Option[Content]
 // 仕様  ：contents の中に contentId と一致する Content があれば Some(content) を返す。なければ None を返す。
-def filterContent(
-    contentId: String,
-    contents: List[Content]
-): Option[Content] = {
-
-  val contentOpt = contents.filter(c => c.id == contentId).headOption
-  contentOpt match {
-    case Some(c) =>
-      println(s"見つかりました: ${c.title}")
-      Some(c)
-    case None => 
-      println(s"見つかりませんでした")
-      None
-  }
+def filterContent(contentId: String, contents: List[Content]): Option[Content] = {
+  contents.filter(c => c.id == contentId).headOption
 }
 
 def findContent(contentId: String, contents: List[Content]): Option[Content] = {
-  val hasContent = contents.find(c => c.id == contentId)
-  hasContent match {
-    case Some(c) => 
-      println(s"見つかりました: ${c.title}")
-      Some(c)
-    case None    =>
-      println("見つかりませんでした")
-      None
-  }
+  contents.find(c => c.id == contentId)
 }
 // Part2
 // 関数名：calcLikeRate
@@ -53,7 +33,7 @@ def calcLikeRate(views: Int, likes: Int): Either[String, Double] = {
 def readJsonFile(path: String): Try[String] = {
   val hasPath = Try(scala.io.Source.fromFile(path).mkString)
   hasPath match {
-    case Success(i) => 
+    case Success(i) =>
       println(s"success ${i}")
       Success(i)
     case Failure(e) =>
@@ -64,11 +44,11 @@ def readJsonFile(path: String): Try[String] = {
 
 // Part4
 // Q1: findContent の戻り値を Either[String, Content] にするメリット・デメリットは何か
-// Unitにしてしまっているのですが、メリットは厳密な型定義により堅牢になり、デメリットは逆に戻り値を柔軟にしたい場合に不便
+// メリットは厳密な型定義により堅牢になり、デメリットは逆に戻り値を柔軟にしたい場合に不便
 
 // Q2: calcLikeRate の戻り値を Option[Double] にした場合と Either[String, Double] にした場合、
-//     呼び出し元でどんな違いが出るか
-//　エラーのメッセージを文章にして出せない、異常値が出てもDouble方でしか返せない。
+//  呼び出し元でどんな違いが出るか
+//　エラー時にleftのStringを使うことで、詳細なエラーメッセージを出力でき原因がわかりやすくなる。
 
 // Q3: Try を使わずに try-catch で書いた場合と比べて何が変わるか
-// Tryのほうは条件によってエラー出力の分岐が作れる。try-catchの場合はエラーの分類によって分岐が作れる。
+// Tryは成功か失敗を値として持つので、その値を関数の戻り値をしても利用することができる

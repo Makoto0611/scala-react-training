@@ -35,14 +35,17 @@ object Main extends App {
 
   println("=== いいねログ ===")
   likes.foreach { l =>
-    println(s"${l.id} | ${l.datetime+ 1700000000}")
+    println(s"${l.id} | ${l.datetime + 1700000000}")
   }
 
   // ErrorHandling.scala
   val output3_1 = filterContent("ct_001", contents)
   println(output3_1)
 
-  val output3_2 = findContent("ct_001", contents)
+  val output3_2 = findContent("ct_001", contents) match {
+    case Some(c) => println(s"見つかりました: ${c.title}")
+    case None    => println("見つかりませんでした")
+  }
   println(output3_2)
 
   val output3_3 = calcLikeRate(10, 5)
