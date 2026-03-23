@@ -44,7 +44,8 @@ def readJsonFile(path: String): Try[String] = {
 
 // Q2: calcLikeRate の戻り値を Option[Double] にした場合と Either[String, Double] にした場合、
 //  呼び出し元でどんな違いが出るか
-//　エラー時にleftのStringを使うことで、詳細なエラーメッセージを出力でき原因がわかりやすくなる。
+//  Optionでは、どのような値かまたは値がないのかを返す
+//　一方Eitherはエラー時にleftのStringを使うことで、詳細なエラーメッセージを出力でき原因がわかりやすくなる。
 
 // Q3: Try を使わずに try-catch で書いた場合と比べて何が変わるか
 // Tryは成功か失敗を値として持つので、その値を関数の戻り値をしても利用することができる

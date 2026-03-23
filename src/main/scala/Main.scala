@@ -50,10 +50,12 @@ object Main extends App {
     case None    => println("見つかりませんでした")
   }
 
+  calcLikeRate(0, 5)
   calcLikeRate(10, 5)
+  calcLikeRate(5, 5)
 
   readJsonFile("test") match {
     case Success(i) => println(s"success ${i}")
-    case Failure(e) => println(s"ファイルの読み込みに失敗しました: + ${e.getMessage()}")
+    case Failure(e) => println(s"ファイルの読み込みに失敗しました:${e.getMessage()}")
   }
 }
